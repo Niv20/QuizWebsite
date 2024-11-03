@@ -1,0 +1,108 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f9;
+}
+.container {
+  width: 90%;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+.btn-container {
+  display: flex;
+  flex-direction: column;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 1em;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
+.hidden {
+  display: none;
+}
+
+.answer-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.answer-btn:hover {
+  background-color: #0056b3;
+}
+
+.answer-btn.correct {
+  background-color: #28a745;
+  color: white;
+  animation: pulse 0.5s;
+}
+
+.answer-btn.wrong {
+  background-color: #dc3545;
+  color: white;
+  animation: shake 0.5s;
+}
+
+/* אנימציה לתשובה נכונה */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* אנימציה לתשובה שגויה */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* סגנון לכפתורים מושבתים */
+.answer-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
