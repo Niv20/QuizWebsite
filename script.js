@@ -136,8 +136,8 @@ const questions = [
     question: "מה הקונטרה אינדיקציה של דורמיקום?",
     answers: [
       { text: "מתחת לגיל חצי שנה", correct: false },
-      { text: "לחץ דם מתחת 100", correct: false },
-      { text: "לחץ דם מעל 180", correct: true },
+      { text: "לחץ דם מתחת 100", correct: true },
+      { text: "לחץ דם מעל 180", correct: false },
       { text: "טרימוס", correct: false },
     ],
     explanation: "לחץ דם גבוה מ-180 הוא גורם שמונע שימוש בדורמיקום.",
