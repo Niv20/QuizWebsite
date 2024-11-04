@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html lang="he">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>אסף אליעזר ספייב</title>
+    <title>חידון על תרופות הרדמה והנשמה</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="container">
-      <h1>חידון על תרופות הרדמה והנשמה</h1>
-      <div id="question-container">
-        <div id="question">טוען שאלה...</div>
-        <div id="answer-buttons" class="btn-container">
-          <!-- כפתורים לתשובות יתווספו כאן על ידי JavaScript -->
-        </div>
-      </div>
-      <div id="explanation" class="hidden">
-        <h3>תופים בבקשה 🥁🥁🥁</h3>
-        <p id="explanation-text">הסבר יופיע כאן לאחר בחירת תשובה.</p>
-        <button id="next-button">יאללה, לשאלה הבאה</button>
+    <canvas id="canvas"></canvas>
+
+    <div class="container" id="start-screen">
+      <div class="center-content">
+        <h1>חידון על תרופות הרדמה והנשמה</h1>
+        <button class="btn" onclick="startQuiz()">התחל את החידון</button>
       </div>
     </div>
+
+    <div class="container hidden" id="quiz-container">
+      <!-- אזור הטיימר -->
+      <div id="timer-container">
+        <div id="timer" class="timer hidden">30</div>
+      </div>
+
+      <div id="question-container"></div>
+      <div id="answer-buttons" class="btn-container"></div>
+      <div id="explanation">
+        <p id="explanation-text"></p>
+        <button onclick="nextQuestion()">שאלה הבאה</button>
+      </div>
+    </div>
+
+    <div class="container hidden" id="end-screen">
+      <div class="center-content">
+        <h1>סיימת את החידון!</h1>
+        <p id="score-display"></p>
+        <button class="btn" onclick="restartQuiz()">נסה שוב</button>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
