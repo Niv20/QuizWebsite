@@ -204,7 +204,7 @@ let score = 0;
 let isAnswerButtonClicked = false;
 
 let timerInterval;
-const TIMER_DURATION = 14;
+const TIMER_DURATION = 30;
 const WARNING_THRESHOLD = 10;
 
 function startTimer() {
