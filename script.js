@@ -132,86 +132,16 @@ const questions = [
     ],
     explanation: "דורמיקום אסור בשימוש במצבים של גלאוקומה זווית חדה חריפה.",
   },
-  {
-    question: "מה הקונטרה אינדיקציה של דורמיקום?",
-    answers: [
-      { text: "מתחת לגיל חצי שנה", correct: false },
-      { text: "לחץ דם מתחת 100", correct: true },
-      { text: "לחץ דם מעל 180", correct: false },
-      { text: "טרימוס", correct: false },
-    ],
-    explanation: "לחץ דם גבוה מ-180 הוא גורם שמונע שימוש בדורמיקום.",
-  },
-  {
-    question: "כמה mg צריך לתת למטופל במשקל 80KG?",
-    answers: [
-      { text: "80mg", correct: false },
-      { text: "0.8mg", correct: false },
-      { text: "8mg", correct: true },
-      { text: "5mg", correct: false },
-    ],
-    explanation: "המינון המומלץ למטופל במשקל זה הוא 8mg.",
-  },
-  // המשך שאלות נוספות
-  {
-    question:
-      "יקבל 60 ml עבור משקל 60 KG של דורמיקום מהול ב- NaCl 2 אמפולות. כמה ml המינון?",
-    answers: [
-      { text: "3ml", correct: false },
-      { text: "12ml", correct: false },
-      { text: "6ml", correct: true },
-      { text: "5ml", correct: false },
-    ],
-    explanation: "החישוב עבור המינון הנכון מצביע על 6ml.",
-  },
-  {
-    question:
-      "דורמיקום עלי להזריק על מנת לקבל 8 ml למטופל? מהול ב- NaCl 2 אמפולות, משקל 80 KG?",
-    answers: [
-      { text: "2ml", correct: false },
-      { text: "4ml", correct: false },
-      { text: "6ml", correct: false },
-      { text: "8ml", correct: true },
-    ],
-    explanation: "הכמות המדויקת עבור משקל זה היא 8ml.",
-  },
-  {
-    question: "כמה זמן לוקח ל- IM דורמיקום להשפיע?",
-    answers: [
-      { text: "5-2M", correct: false },
-      { text: "3-2M", correct: true },
-      { text: "10-5M", correct: false },
-      { text: "14-6M", correct: false },
-    ],
-    explanation: "דורמיקום משפיע דרך IM בדרך כלל תוך 2-3 דקות.",
-  },
-  {
-    question: "מה המינון של IV שחרור של דורמיקום?",
-    answers: [
-      { text: "5mg", correct: false },
-      { text: "10mg", correct: false },
-      { text: "2.5-5mg", correct: true },
-      { text: "2.5mg", correct: false },
-    ],
-    explanation: "המינון המתאים לשחרור IV של דורמיקום הוא 2.5-5mg.",
-  },
-  {
-    question: "איזה גודל טובוס מינימלי נדרש על מנת להשתמש בבוג'י?",
-    answers: [
-      { text: "6", correct: true },
-      { text: "5.5", correct: false },
-      { text: "5", correct: false },
-      { text: "6.5", correct: false },
-    ],
-    explanation: "על מנת להשתמש בבוג'י נדרש טובוס בגודל מינימלי של 6 (שישה)",
-  },
 ];
 
+let totalQuestions = questions.length; // קובע את מספר השאלות בצורה דינאמית
 let currentQuestionIndex = 0;
 let score = 0;
 
+let isAnswerButtonClicked = false;
+
 let timerInterval;
-const TIMER_DURATION = 30;
+const TIMER_DURATION = 14;
 const WARNING_THRESHOLD = 10;
 
 function startTimer() {
@@ -243,12 +173,18 @@ function handleTimeUp() {
     (a) => a.correct
   );
 
+  // מסמן את התשובה הנכונה בכפתורים
   buttons.forEach((button) => {
     if (button.textContent === correctAnswer.text) {
       button.classList.add("correct");
     }
     button.disabled = true;
   });
+
+  // מעדכן את הנקודה בתפריט התחתון להיות אדומה
+  const progressDots = document.querySelectorAll(".progress-dot");
+  progressDots[currentQuestionIndex].classList.remove("current");
+  progressDots[currentQuestionIndex].classList.add("wrong");
 
   document.getElementById(
     "explanation-text"
@@ -263,7 +199,13 @@ function showQuestion(questionData) {
   const explanation = document.getElementById("explanation");
   const timer = document.getElementById("timer");
 
-  // לאפס את הטיימר ל-30 שניות
+  // סימון הנקודה הכחולה לשאלה הנוכחית
+  const progressDots = document.querySelectorAll(".progress-dot");
+  progressDots.forEach((dot) => dot.classList.remove("current")); // מסיר את הסימון מכל הנקודות
+  if (currentQuestionIndex < totalQuestions) {
+    progressDots[currentQuestionIndex].classList.add("current");
+  }
+
   timer.textContent = TIMER_DURATION;
   explanation.classList.remove("show");
   timer.classList.remove("hidden");
@@ -291,12 +233,14 @@ function showQuestion(questionData) {
         document.getElementById(
           "explanation-text"
         ).textContent = `תשובה נכונה!\n\n${questionData.explanation}`;
+        updateProgressBar(true);
       } else {
         this.classList.add("wrong");
         correctButton.classList.add("correct");
         document.getElementById(
           "explanation-text"
         ).textContent = `טעית! התשובה הנכונה היא: ${correctButton.textContent}. ${questionData.explanation}`;
+        updateProgressBar(false);
       }
 
       explanation.classList.add("show");
@@ -311,8 +255,15 @@ function showQuestion(questionData) {
 function startQuiz() {
   document.getElementById("start-screen").classList.add("hidden");
   document.getElementById("quiz-container").classList.remove("hidden");
+  currentQuestionIndex = 0;
+  score = 0;
+  initializeProgressBar();
+  // מוסיפים סימון לנקודה הראשונה רק כשהחידון מתחיל
+  const firstDot = document.querySelector(".progress-dot");
+  if (firstDot) {
+    firstDot.classList.add("current");
+  }
   showQuestion(questions[currentQuestionIndex]);
-  // עצירת אנימציית הקונפטי אם היא פועלת
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId);
     context.clearRect(0, 0, W, H);
@@ -320,12 +271,34 @@ function startQuiz() {
 }
 
 function nextQuestion() {
-  clearInterval(timerInterval);
-  currentQuestionIndex++;
-  if (currentQuestionIndex >= questions.length) {
-    endQuiz();
-  } else {
-    showQuestion(questions[currentQuestionIndex]);
+  if (!isAnswerButtonClicked) {
+    isAnswerButtonClicked = true;
+    clearInterval(timerInterval);
+    currentQuestionIndex++;
+
+    // אם הגענו לשאלה האחרונה
+    if (currentQuestionIndex >= questions.length) {
+      endQuiz();
+    } else {
+      showQuestion(questions[currentQuestionIndex]);
+
+      // עדכון הכפתור לטקסט "למסך הסיום" אם זו השאלה האחרונה
+      const button = document.querySelector("#explanation button"); // הכפתור לשאלה הבאה
+      if (currentQuestionIndex === questions.length - 1) {
+        setTimeout(() => {
+          button.textContent = "יאללה, למסך הסיום!";
+        }, 2000); // השהייה של 2000 מילישניות (2 שניות)
+      }
+
+      // עדכון הנקודה הנוכחית בציר
+      const progressDots = document.querySelectorAll(".progress-dot");
+      progressDots[currentQuestionIndex].classList.add("current");
+    }
+
+    // למנוע מצב שבו המשתמש לוחץ מהר פעמיים על הכפתור ומדלג על שאלה
+    setTimeout(() => {
+      isAnswerButtonClicked = false;
+    }, 1000); // מחכה שנייה לפני שאפשר ללחוץ שוב
   }
 }
 
@@ -343,6 +316,13 @@ function restartQuiz() {
   score = 0;
   document.getElementById("end-screen").classList.add("hidden");
   document.getElementById("quiz-container").classList.remove("hidden");
+  // איפוס כל הנקודות למצב התחלתי
+  const progressDots = document.querySelectorAll(".progress-dot");
+  progressDots.forEach((dot) => {
+    dot.classList.remove("current", "correct", "wrong");
+  });
+  // סימון הנקודה הראשונה כנוכחית
+  progressDots[0].classList.add("current");
   // עצירת אנימציית הקונפטי
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId);
@@ -350,3 +330,49 @@ function restartQuiz() {
   }
   showQuestion(questions[currentQuestionIndex]);
 }
+
+function toggleDarkMode() {
+  const body = document.body;
+  const toggleButton = document
+    .getElementById("dark-mode-toggle")
+    .querySelector(".material-icons");
+  const explanationBox = document.getElementById("explanation");
+  const overlay = document.getElementById("dark-mode-overlay");
+
+  // הוספה או הסרה של המחלקה למצב כהה
+  body.classList.toggle("dark-mode");
+
+  // עדכון אייקון לפי המצב
+  if (body.classList.contains("dark-mode")) {
+    toggleButton.textContent = "light_mode"; // אייקון שמש למצב כהה פעיל
+  } else {
+    toggleButton.textContent = "dark_mode"; // אייקון ירח למצב רגיל
+  }
+}
+
+function initializeProgressBar() {
+  const progressTrack = document.getElementById("progress-track");
+  progressTrack.innerHTML = "";
+
+  for (let i = 0; i < totalQuestions; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("progress-dot");
+    progressTrack.appendChild(dot);
+  }
+}
+
+function updateProgressBar(isCorrect) {
+  const progressDots = document.querySelectorAll(".progress-dot");
+
+  // סימון השאלה הנוכחית בהתאם לתשובה
+  if (isCorrect) {
+    progressDots[currentQuestionIndex].classList.add("correct");
+  } else {
+    progressDots[currentQuestionIndex].classList.add("wrong");
+  }
+
+  progressDots[currentQuestionIndex].classList.remove("current");
+}
+
+// הפעלת הפונקציה בהתחלה
+initializeProgressBar();
