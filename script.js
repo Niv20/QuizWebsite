@@ -207,7 +207,6 @@ const questions = [
   },
 ];
 
-
 let totalQuestions = questions.length; // קובע את מספר השאלות בצורה דינאמית
 let currentQuestionIndex = 0;
 let score = 0;
@@ -247,7 +246,7 @@ function handleTimeUp() {
     (a) => a.correct
   );
 
-  // מסמן את התשובה הנכונה בכפתורים
+  // Mark the correct answer button
   buttons.forEach((button) => {
     if (button.textContent === correctAnswer.text) {
       button.classList.add("correct");
@@ -255,14 +254,15 @@ function handleTimeUp() {
     button.disabled = true;
   });
 
-  // מעדכן את הנקודה בתפריט התחתון להיות אדומה
+  // Update the progress dot to be red
   const progressDots = document.querySelectorAll(".progress-dot");
   progressDots[currentQuestionIndex].classList.remove("current");
   progressDots[currentQuestionIndex].classList.add("wrong");
 
+  // Display the explanation
   document.getElementById(
     "explanation-text"
-  ).textContent = `נגמר הזמן!\n\n${questionData.explanation}`;
+  ).textContent = `נגמר הזמן!\n\n${questions[currentQuestionIndex].explanation}`;
   document.getElementById("explanation").classList.add("show");
   document.getElementById("timer").classList.add("hidden");
 }
