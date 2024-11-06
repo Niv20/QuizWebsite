@@ -131,6 +131,69 @@ const questions = [
       { text: "טרימוס", correct: false },
     ],
     explanation: "דורמיקום אסור בשימוש במצבים של גלאוקומה זווית חדה חריפה.",
+  }, 
+  {
+    question: "כמה mg צריך לתת למטופל במשקל 80KG?",
+    answers: [
+      { text: "80mg", correct: false },
+      { text: "0.8mg", correct: false },
+      { text: "8mg", correct: true },
+      { text: "5mg", correct: false },
+    ],
+    explanation: "המינון המומלץ למטופל במשקל זה הוא 8mg.",
+  },
+  // המשך שאלות נוספות
+  {
+    question:
+      "יקבל 60 ml עבור משקל 60 KG של דורמיקום מהול ב- NaCl 2 אמפולות. כמה ml המינון?",
+    answers: [
+      { text: "3ml", correct: false },
+      { text: "12ml", correct: false },
+      { text: "6ml", correct: true },
+      { text: "5ml", correct: false },
+    ],
+    explanation: "החישוב עבור המינון הנכון מצביע על 6ml.",
+  },
+  {
+    question:
+      "דורמיקום עלי להזריק על מנת לקבל 8 ml למטופל? מהול ב- NaCl 2 אמפולות, משקל 80 KG?",
+    answers: [
+      { text: "2ml", correct: false },
+      { text: "4ml", correct: false },
+      { text: "6ml", correct: false },
+      { text: "8ml", correct: true },
+    ],
+    explanation: "הכמות המדויקת עבור משקל זה היא 8ml.",
+  },
+  {
+    question: "כמה זמן לוקח ל- IM דורמיקום להשפיע?",
+    answers: [
+      { text: "5-2M", correct: false },
+      { text: "3-2M", correct: true },
+      { text: "10-5M", correct: false },
+      { text: "14-6M", correct: false },
+    ],
+    explanation: "דורמיקום משפיע דרך IM בדרך כלל תוך 2-3 דקות.",
+  },
+  {
+    question: "מה המינון של IV שחרור של דורמיקום?",
+    answers: [
+      { text: "5mg", correct: false },
+      { text: "10mg", correct: false },
+      { text: "2.5-5mg", correct: true },
+      { text: "2.5mg", correct: false },
+    ],
+    explanation: "המינון המתאים לשחרור IV של דורמיקום הוא 2.5-5mg.",
+  },
+  {
+    question: "איזה גודל טובוס מינימלי נדרש על מנת להשתמש בבוג'י?",
+    answers: [
+      { text: "6", correct: true },
+      { text: "5.5", correct: false },
+      { text: "5", correct: false },
+      { text: "6.5", correct: false },
+    ],
+    explanation: "על מנת להשתמש בבוג'י נדרש טובוס בגודל מינימלי של 6 (שישה)",
   },
 ];
 
