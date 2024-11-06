@@ -131,7 +131,17 @@ const questions = [
       { text: "טרימוס", correct: false },
     ],
     explanation: "דורמיקום אסור בשימוש במצבים של גלאוקומה זווית חדה חריפה.",
-  }, 
+  },
+  {
+    question: "מה הקונטרה אינדיקציה של דורמיקום?",
+    answers: [
+      { text: "מתחת לגיל חצי שנה", correct: false },
+      { text: "לחץ דם מתחת 100", correct: false },
+      { text: "לחץ דם מעל 180", correct: true },
+      { text: "טרימוס", correct: false },
+    ],
+    explanation: "לחץ דם גבוה מ-180 הוא גורם שמונע שימוש בדורמיקום.",
+  },
   {
     question: "כמה mg צריך לתת למטופל במשקל 80KG?",
     answers: [
@@ -193,9 +203,10 @@ const questions = [
       { text: "5", correct: false },
       { text: "6.5", correct: false },
     ],
-    explanation: "על מנת להשתמש בבוג'י נדרש טובוס בגודל מינימלי של 6 (שישה)",
+    explanation: "על מנת להשתמש בבוג'י נדרש טובוס בגודל מינימלי של 6",
   },
 ];
+
 
 let totalQuestions = questions.length; // קובע את מספר השאלות בצורה דינאמית
 let currentQuestionIndex = 0;
@@ -251,7 +262,7 @@ function handleTimeUp() {
 
   document.getElementById(
     "explanation-text"
-  ).textContent = `נגמר הזמן! התשובה הנכונה היא: ${correctAnswer.text}. ${questions[currentQuestionIndex].explanation}`;
+  ).textContent = `נגמר הזמן!\n\n${questionData.explanation}`;
   document.getElementById("explanation").classList.add("show");
   document.getElementById("timer").classList.add("hidden");
 }
@@ -302,7 +313,7 @@ function showQuestion(questionData) {
         correctButton.classList.add("correct");
         document.getElementById(
           "explanation-text"
-        ).textContent = `טעית! התשובה הנכונה היא: ${correctButton.textContent}. ${questionData.explanation}`;
+        ).textContent = `טעית!\n\n${questionData.explanation}`;
         updateProgressBar(false);
       }
 
